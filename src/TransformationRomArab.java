@@ -22,6 +22,24 @@ public class TransformationRomArab {
         }
     }
 
+enum ArabRomNum {
+        C(100), XC(90), L(50), XL(40), X(10), IX(9), V(5), IV(4), I(1);
+
+        private int value;
+
+        ArabRomNum(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static List<ArabRomNum> getTransformValues() {
+            return Arrays.asList(ArabRomNum.values());
+        }
+    }
+
     public static int romToArab(String input) throws MyExeption {
         int result = 0;
 
@@ -49,20 +67,21 @@ public class TransformationRomArab {
             throw new MyExeption(number + "Римское число не может быть <=0");
         }
 
-        List<RomNum> romanNum = RomNum.getTransformValues();
+        List<ArabRomNum> romanNum = ArabRomNum.getTransformValues();
 
         int i = 0;
-        String symbolRom = null;
+        StringBuilder stringB = new StringBuilder(); 
 
         while (i < romanNum.size()) {
-            RomNum symbolListEnum2 = romanNum.get(i);
-            if (symbolListEnum2.getValue() == number) {
-                symbolRom = symbolListEnum2.name();
-            }
-            i++;
-
-        }
-
-        return symbolRom;
+        ArabRomNum curSymbol = romanNum.get(i);
+        if (curSymbol.getValue() <= number) { 
+        stringB.append(curSymbol.name());
+        number -= curSymbol.getValue();
+        } 
+        else { 
+              i++; 
+         }
+        } 
+            return stringB.toString();
     }
 }
